@@ -1,0 +1,1 @@
+ssh username@<VPN_SERVER_IP>
