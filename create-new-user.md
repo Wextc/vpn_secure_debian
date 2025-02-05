@@ -5,7 +5,13 @@ Use the following command to create a new user (replace newuser with the desired
 
 bash
 Copy
+
+
 sudo adduser newuser
+
+
+
+
 This command will prompt you to set a password for the new user and optionally provide additional information like Full Name, Room Number, etc. You can leave these fields blank and press Enter to skip.
 
 2. Add the new user to the sudo group
