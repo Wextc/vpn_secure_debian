@@ -1,4 +1,4 @@
-, you can use UFW (Uncomplicated Firewall) on your VPS to manage firewall rules and improve security. UFW is a front-end for iptables and simplifies the process of setting up firewall rules on Linux systems.
+You can use UFW (Uncomplicated Firewall) on your VPS to manage firewall rules and improve security. UFW is a front-end for iptables and simplifies the process of setting up firewall rules on Linux systems.
 
 Here’s how you can use UFW on your VPS:
 
