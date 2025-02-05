@@ -130,3 +130,36 @@ sudo ufw logging on
 
 ```
 That’s the basic setup for using UFW on your VPS. UFW is simple and powerful for managing your firewall rules. Let me know if you need more help with specific configurations!
+
+
+
+
+
+
+
+- Check version:
+
+```
+sudo ufw --version
+
+```
+
+- Check if ufw is installed:
+
+Run this command to see if ufw is installed:
+
+```
+which ufw
+
+```
+
+- Check if ufw is active (enabled):
+
+You can also check the status of ufw with:
+
+This shows which ports are allowed or denied through the firewall.
+
+```
+sudo ufw status
+
+```
