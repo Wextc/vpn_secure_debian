@@ -131,12 +131,6 @@ sudo ufw logging on
 ```
 That’s the basic setup for using UFW on your VPS. UFW is simple and powerful for managing your firewall rules. Let me know if you need more help with specific configurations!
 
-
-
-
-
-
-
 - Check version:
 
 ```
@@ -163,3 +157,41 @@ This shows which ports are allowed or denied through the firewall.
 sudo ufw status
 
 ```
+
+
+
+
+#### When you have a another port abled to connect with ssh you can remove rule that allow the port 22
+
+
+
+- Find the Rule Number (Optional)
+First, check the current UFW rules to confirm that port 22 is allowed:
+
+```
+sudo ufw status numbered
+
+```
+This will list the rules with numbers, something like:
+
+```
+[ 1] 22/tcp                  ALLOW       Anywhere
+[ 2] 55555/tcp               ALLOW       Anywhere
+
+```
+Take note of the rule number for port 22/tcp.
+
+- Delete the Rule Using Its Number (Preferred Method)
+If port 22 appears as rule [1], remove it with:
+
+```
+sudo ufw delete 1
+
+```
+
+If it's a different number, replace 1 with the correct number.
+
+
+
+
+
