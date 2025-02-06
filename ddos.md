@@ -79,70 +79,73 @@ If you want to test with just 5 blocked requests first, then later switch back t
 🔹 Step 1: Set Up a 5 Request Limit for Testing
 Run these commands to temporarily block traffic after 5 requests:
 
-bash
-Copy
-Edit
+```
 sudo ufw allow 80/tcp
 sudo iptables -I INPUT -p tcp --dport 80 -m limit --limit 5/day -j ACCEPT
 sudo iptables -A INPUT -p tcp --dport 80 -j DROP
+
+```
+
 ✅ This allows 5 requests per day and then blocks all traffic.
 
 🔹 Step 2: Test if Requests Are Blocked
 After making 5 requests, your server should stop responding.
 To check if the rule is working, use:
 
-bash
-Copy
-Edit
+```
 sudo iptables -vnL INPUT
+
+```
 You should see something like:
 
-sql
-Copy
-Edit
+```
 pkts bytes target   prot opt in  out source    destination
 5    xxx   ACCEPT   tcp  --  any any anywhere  anywhere tcp dpt:http limit: 5/day
 0    0     DROP     tcp  --  any any anywhere  anywhere tcp dpt:http
+
+```
+
 This confirms that 5 requests were accepted, and new ones are blocked.
 
 🔹 Step 3: Reset to 2000 Requests After Testing
 Once you verify the 5-request test, reset the rule and apply the 2000 request limit:
 
-bash
-Copy
-Edit
+```
 sudo iptables -F  # Clear old rules
 sudo ufw allow 80/tcp
 sudo iptables -I INPUT -p tcp --dport 80 -m limit --limit 2000/day -j ACCEPT
 sudo iptables -A INPUT -p tcp --dport 80 -j DROP
+
+```
+
 ✅ This restores the 2000 request daily limit.
 
 🔹 Step 4: Make Sure Rules Persist on Reboot
 Since iptables rules reset when the server reboots, save them:
 
-bash
-Copy
-Edit
+```
 sudo iptables-save > /etc/iptables/rules.v4
+
+```
 Then, restore them on reboot:
 
-bash
-Copy
-Edit
+```
 sudo iptables-restore < /etc/iptables/rules.v4
+
+```
 🔹 Step 5: Reset the Rules Automatically at Midnight (Optional)
 If you want the request counter to reset daily, set up a cron job:
 
-bash
-Copy
-Edit
+```
 sudo crontab -e
+
+```
 Add this line:
 
-bash
-Copy
-Edit
+```
 0 0 * * * iptables -F && iptables-restore < /etc/iptables/rules.v4
+
+```
 ✅ This resets the request count every night at midnight.
 
 
@@ -158,37 +161,42 @@ Got it! You want to reset the blocked request limit but still keep ports 5555, 4
 
 Run These Commands to Reset Blocked Requests & Keep Ports Open
 🔹 Step 1: Reset iptables Rules for Requests
-bash
-Copy
-Edit
+
+```
 sudo iptables -F INPUT  # Clear all input rules
 sudo iptables -F OUTPUT # Clear all output rules
 sudo iptables -F        # Clear all rules
+
+```
+
 ✅ This removes the request blocking but keeps the firewall active.
 
 🔹 Step 2: Allow Ports 5555, 443, and 80
-bash
-Copy
-Edit
+
+```
 sudo iptables -A INPUT -p tcp --dport 80 -j ACCEPT   # Allow HTTP (Port 80)
 sudo iptables -A INPUT -p tcp --dport 443 -j ACCEPT  # Allow HTTPS (Port 443)
 sudo iptables -A INPUT -p tcp --dport 5555 -j ACCEPT # Allow Custom Port 5555
+
+```
 ✅ Now these ports are open for traffic.
 
 🔹 Step 3: Set Default Policies to Allow Normal Traffic
-bash
-Copy
-Edit
+
+```
 sudo iptables -P INPUT ACCEPT   # Accept all incoming traffic (except blocked ones)
 sudo iptables -P FORWARD ACCEPT # Allow forwarding traffic
 sudo iptables -P OUTPUT ACCEPT  # Allow outgoing traffic
+
+```
 ✅ This makes sure your server doesn’t block normal traffic.
 
 🔹 Step 4: Save Rules So They Persist on Reboot
-bash
-Copy
-Edit
+
+```
 sudo iptables-save > /etc/iptables/rules.v4
+
+```
 ✅ Now, the changes will remain even after restarting the server.
 
 
